@@ -1,12 +1,15 @@
-// fatorial de um número
+// Criar quadrado com asteriscos
 
-function fatorial(val){
-    var res = 1;
-    for (var i=1; i<=val; i++)
-     res *= i;
-    return res;
+function quadrado(altura, largura){
+    var str = "*";
+    var line = "";
+    var column = "";
+    for (let i = 0; i < largura; i++){
+        line += str;
+    }
+    for (let j = 0; j < altura; j++){
+        console.log(line)
+    }
 }
 
-var x = fatorial(3)
-console.log(x)
-
+quadrado(10,20)

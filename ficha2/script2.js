@@ -1,11 +1,19 @@
-// imprimir todos os multiplos de 5 menores que 20
+// Inverter todas as palavras de uma string
 
-function multiplos(val,limite){
-    var result = 0;
-    while (result < limite){
-        result = result + val
-        console.log(result);
+
+function inverterTexto(){
+    var texto = "Hoje é domingo";
+    var reversedStr = "";
+    var edited = texto.split(" ");
+    for (let i = 0; i < edited.length; i++){
+        const word = edited[i];
+        for (let j = word.length - 1; j >= 0; j--){
+            reversedStr+=word[j];
+        }
+        reversedStr+=" ";
     }
+    return reversedStr;
 }
 
-multiplos(5,20)
+console.log(inverterTexto())
+
