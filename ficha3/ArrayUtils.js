@@ -30,12 +30,23 @@ var arrayUtils= {
             soma = i++
         }
     },
-    indexOf: function(array, value){},
+    indexOf: function(array, value){
+        var index = -1;
+        for (let i = 0; i < array.length; i++){
+            if (array[i] == value){
+                return i;
+                break;
+        }
+    }
+    return -1;
+    },
     subArray: function(array, startindex, endindex){},
     isSameLength: function(a1, a2){},
     reverse: function(array){},
     swap: function(array, index1, index2){},
-    contains: function(array, value){},
+    contains: function(array, value){
+        return this.indexOf(array, value) != -1
+    },
     concatenate: function(a1, a2){},
 };
 
