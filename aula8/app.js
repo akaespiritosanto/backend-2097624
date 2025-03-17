@@ -10,13 +10,76 @@ var usersRouter = require('./routes/users');
 
 const app = express();
 
-function log(){
-  fs.appendFile("log", "testing", function (err){
-      if (err){
-          console.log(err)
-      }
-  })
+// =====================================================================================
+
+function log(req, res){
+  var path = req.route.path;
+  var method = req.method;
+  var date = new Date();
+
+  var str = "Path: " + path + "Method" + method + "Date: " + date;
+  fs.appendFileSync("log.txt", str); 
 }
+
+app.get("/", (req, res) =>{
+  log(req, res);
+  var body = "Hello World";
+  res.writeHead(200, {
+    "Content-Length": Buffer.byteLength(body),
+    "Content-type": "text/plain"
+  })
+  res.end(body);
+})
+
+app.get("/html", (req, res) =>{
+  var body = fs.readFileSync("./index.html", "utf-8");
+  res.writeHead(200, {
+    "Content-Length": Buffer.byteLength(body),
+    "Content-Type": "text/html"
+  })
+  res.end(body);
+})
+
+app.get("/", (req, res) =>{
+  var body = fs.readFileSync("./index.html", "utf-8");
+  body = body.replace("date",new Date())
+  res.writeHead(200, {
+    "Content-Length": Buffer.byteLength(body),
+    "Content-Type": "text/html"
+  })
+  res.end(body);
+})
+
+app.get("/user/:name", (req, res) =>{
+  var username = req.params.name;
+  var message = "Hello World and " + username;
+  res.writeHead(200, {
+    "Content-Length": Buffer.byteLength(message),                 
+    "Content-Type": "text/html"
+  })
+  res.end(message);
+}) 
+
+app.get("/logs", (req, res) =>{
+  var logs = fs.readFileSync("./log.txt", "utf-8");
+  res.writeHead(200, {
+    "Content-Length": Buffer.byteLength(logs),
+    "Content-Type": "text/html"
+  })
+  res.end(logs);
+})
+
+app.get("/download", (req, res) =>{
+  message = "Downloading..."
+  res.download("http://localhost:3000/download")
+  res.writeHead(200, {
+    "Content-Length": Buffer.byteLength(message),
+    "Content-Type": "text/html"
+  })
+  res.end(message)
+})
+
+// =====================================================================================
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -50,7 +113,6 @@ app.use(function(err, req, res, next) {
 app.post("/root", (req, res) => {
   res.writeHead.send("Hello world!")
 })
-
 
 module.exports = app;
 

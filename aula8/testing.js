@@ -1,10 +1,5 @@
-var fs = require("fs");
 
-function testing(){
-    fs.appendFile("aula8", "testing", function (err){
-        if (err){
-            console.log(err)
-        }
-    })
-}
-
+app.get("html", (req, res) =>{
+    var str = "Hello test"
+    var str2 = str.replace("test",date)
+})
