@@ -70,14 +70,13 @@ app.get("/logs", (req, res) =>{
 })
 
 app.get("/download", (req, res) =>{
-  message = "Downloading..."
-  res.download("http://localhost:3000/download")
-  res.writeHead(200, {
-    "Content-Length": Buffer.byteLength(message),
-    "Content-Type": "text/html"
+  res.download("./log.txt", function(err){
+    res.status(404);
+    res.message("Downloading")
   })
-  res.end(message)
 })
+
+// falta o clear
 
 // =====================================================================================
 
