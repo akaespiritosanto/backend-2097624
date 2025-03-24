@@ -76,7 +76,11 @@ app.get("/download", (req, res) =>{
   })
 })
 
-// falta o clear
+app.get("/clear", (req, res) => {
+  fs.writeFileSync("log.txt", ""); 
+  res.end("O arquivo de log foi apagado.");
+});
+
 
 // =====================================================================================
 
