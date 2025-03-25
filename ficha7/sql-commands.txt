@@ -1,0 +1,12 @@
+SELECT `users`.`id`,
+    `users`.`firstname`,
+    `users`.`lastname`,
+    `users`.`profession`,
+    `users`.`age`
+FROM `ficha7-ctesp`.`users`;
+
+INSERT INTO users (id, firstname, lastname, profession, age)
+VALUES (1,"Afonso","Santo","Engenheiro de Software",19),
+(2,"João","Silva","Doutor",24);
+
+ALTER USER "root"@"localhost" IDENTIFIED WITH mysql_native_password BY "password";
