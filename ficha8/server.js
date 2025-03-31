@@ -4,6 +4,8 @@ const app = express()
 const mysql = require('mysql2');
 const port = 3000
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
