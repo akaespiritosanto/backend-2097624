@@ -2,7 +2,7 @@ const { response } = require('express');
 const express = require('express')
 const app = express()
 const mysql = require('mysql2');
-const port = 3000
+const port = 3000;
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
