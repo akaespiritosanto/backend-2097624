@@ -1,15 +1,23 @@
-const { Sequelize, Model, Datatypes} = require("sequelize");
-const sequelize = new Sequelize("mysql://root:password@localhost:3306/ficha10") 
+const { Sequelize, Model, DataTypes } = require("sequelize");
+const sequelize = new Sequelize("mysql://root:password@localhost:3306/ficha10");
+const User = require('./models/User.js');
+const Books = require('./models/Books.js');
+const Loans = require('./models/Loans.js');
 
 (async () => {
-    await sequilize.sync({ force: false})
+    await sequelize.sync({ force: false })
     .then(() => {
         console.log("Database and tables created!");
-    } // inacabado
-})
+        return User.create({
+            first_name: "Afonso",
+            last_name: "Santo"
+        });
+    });
+})();
 
-
-const book = await User.create({
-    first_name: "Afonso",
-    last_name: "Santo"
-});
+module.exports = {
+  Sequelize,
+  User, 
+  Books,
+  Loans
+};

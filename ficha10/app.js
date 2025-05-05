@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var booksRouter = require('./routes/books');
 
 var app = express();
+const port = 3001;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -34,5 +35,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
 
 module.exports = app;
