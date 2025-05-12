@@ -1,23 +1,27 @@
-const { Sequelize, Model, DataTypes } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = new Sequelize("mysql://root:password@localhost:3306/ficha10");
-const User = require('./models/User.js');
-const Books = require('./models/Books.js');
-const Loans = require('./models/Loans.js');
 
+const db = {};
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+db.User = require('./models/User.js')(sequelize, DataTypes);
+db.Book = require('./models/Books.js')(sequelize, DataTypes);
+db.Loan = require('./models/Loans.js')(sequelize, DataTypes);
+
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
 (async () => {
-    await sequelize.sync({ force: false })
-    .then(() => {
-        console.log("Database and tables created!");
-        return User.create({
-            first_name: "Afonso",
-            last_name: "Santo"
-        });
-    });
+  try {
+    await sequelize.sync({ force: false });
+    console.log("Database and tables created!");
+  } catch (error) {
+    console.error("Error syncing database:", error);
+  }
 })();
 
-module.exports = {
-  Sequelize,
-  User, 
-  Books,
-  Loans
-};
+module.exports = db;

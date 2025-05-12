@@ -1,0 +1,1 @@
+const Book = require("../sequelize") // inacabado
