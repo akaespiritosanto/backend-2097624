@@ -1,43 +1,45 @@
+const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define("User", {
+module.exports = (sequelize) => {
+  const User = sequelize.define('User', {
     user_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
     },
     first_name: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     last_name: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     email: {
-        type: DataTypes.STRING,
-        allowNull: true,
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true
+      }
     },
     address: {
-        type: DataTypes.STRING,
-        allowNull: true,
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    password: {
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     phone_number: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
-    tableName: "users",
+    tableName: 'users',
     timestamps: true
   });
-
-  User.associate = (models) => {
-    User.hasMany(models.Loan, {
-      foreignKey: 'user_id',
-      as: 'loans'
-    });
-  };
 
   return User;
 };
