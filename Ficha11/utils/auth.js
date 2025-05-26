@@ -6,7 +6,6 @@ function authenticateTokenFromSession(req, res, next) {
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     if (err)
       return res.sendStatus(403);
-    //req.user = user;
     next();
   });
 }
@@ -14,10 +13,10 @@ function authenticateTokenFromSession(req, res, next) {
 function authenticateTokenFromHeaders(req, res, next) {
   // Gather the jwt access token from the request header
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; 
+  const token = authHeader && authHeader.split(' ')[1];
   // Unauthorized
   if (token == null) return res.sendStatus(401);
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     if (err)
       return res.sendStatus(403); // Forbidden
     req.user = user;
@@ -25,13 +24,33 @@ function authenticateTokenFromHeaders(req, res, next) {
   });
 }
 
-function generateAccessToken(email, password) {
-    var token = jwt.sign({ email, password }, process.env.TOKEN_SECRET, { expiresIn: '18000s' });
-    return token;
+// Middleware to verify JWT token
+const authenticateSocketIoToken = (socket, next) => {
+  const token = socket.handshake.auth.token;
+
+  if (!token) {
+    return next(new Error('No token provided'));
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    socket.user = decoded; // Store user info in socket
+    next();
+  } catch (err) {
+    next(new Error('Invalid token'));
+  }
+};
+
+function generateAccessToken(user) {
+  let {email, password, user_id, first_name} = user;
+  console.log(process.env.TOKEN_SECRET);
+  var token = jwt.sign({ email, password, user_id, first_name }, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+  return token;
 }
 
 module.exports = {
-    authenticateTokenFromSession,
-    authenticateTokenFromHeaders,
-    generateAccessToken    
+  authenticateTokenFromSession,
+  authenticateTokenFromHeaders,
+  authenticateSocketIoToken,
+  generateAccessToken
 }

@@ -24,6 +24,15 @@ Loan.belongsTo(Book, {foreignKey: 'book_id'});
         phone_number: '912945654'
     });
 
+     const user1 = await User.create({
+        first_name: 'David',
+        last_name: '240',
+        email: 'dada@gmail.com',
+        password: 'test',
+        address: 'Funchal',
+        phone_number: '912945654'
+    });
+
     const book = await Book.create({
         title: 'Alfaces',
         author_name: 'Pedro Chagas',
